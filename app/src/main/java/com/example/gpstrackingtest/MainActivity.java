@@ -130,7 +130,11 @@ public class MainActivity extends AppCompatActivity {
            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
                @Override
                public void onSuccess(Location location) {
-                   updateUIValues(location);
+                   if (location != null)
+                   {
+                       updateUIValues(location);
+                   }
+
                }
            });
         }
