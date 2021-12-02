@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         locationRequest = LocationRequest.create()
                 .setInterval(1000 * DEFAULT_UPDATE_INTERVAL)
                 .setFastestInterval(1000 * FAST_UPDATE_INTERVAL)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         locationCallBack = new LocationCallback() {
             @Override
