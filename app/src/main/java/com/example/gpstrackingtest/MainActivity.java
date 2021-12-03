@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -19,11 +20,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int DEFAULT_UPDATE_INTERVAL = 30;
+    public static final int DEFAULT_UPDATE_INTERVAL = 10;
     public static final int FAST_UPDATE_INTERVAL = 5;
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     TextView txtLat, txtLong, txtAlt, txtAcc, txtSpeed, txtSensor, txtUpdates, txtAddress;
     Switch swLocationUpdates, swGPS;
+    Button btnSaveWaypoint, btnShowMap;
+    Location currentLocation;
+    List<Location> savedLocations;
 
     // Location request is a config file for all settings related to FusedLocationProviderClient
     LocationRequest locationRequest;
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddress);
         swLocationUpdates = findViewById(R.id.swLocationUpdates);
         swGPS = findViewById(R.id.swGPS);
+        btnSaveWaypoint = findViewById(R.id.btnSaveWaypoint);
+        btnShowMap = findViewById(R.id.btnShowMap);
 
         locationRequest = LocationRequest.create()
                 .setInterval(1000 * DEFAULT_UPDATE_INTERVAL)
@@ -78,9 +84,20 @@ public class MainActivity extends AppCompatActivity {
             else
                 stopLocationUpdates();
         });
+
+        btnShowMap.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, MapsActivity.class);
+            startActivity(i);
+        });
+
+        btnSaveWaypoint.setOnClickListener(v -> {
+            MyApplication myApplication = (MyApplication) getApplicationContext();
+            savedLocations = myApplication.getMyLocations();
+            savedLocations.add(currentLocation);
+        });
+
         updateGPS();
     }
-
 
     private void startLocationUpdates() {
         txtUpdates.setText("Location is being tracked.");
@@ -126,14 +143,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>()   {
-               @Override
-               public void onSuccess(Location location) {
-                   if (location != null)
-                   {
-                       updateUIValues(location);
-                   }
-
+           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, location -> {
+               if (location != null)
+               {
+                   updateUIValues(location);
+                   currentLocation = location;
                }
            });
         }
@@ -173,4 +187,5 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
 }
