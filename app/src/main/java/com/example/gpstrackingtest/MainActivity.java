@@ -20,7 +20,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public static final int DEFAULT_UPDATE_INTERVAL = 30;
-    public static final int FAST_UPDATE_INTERVAL = 1;
+    public static final int FAST_UPDATE_INTERVAL = 5;
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     TextView txtLat, txtLong, txtAlt, txtAcc, txtSpeed, txtSensor, txtUpdates, txtAddress;
     Switch swLocationUpdates, swGPS;
@@ -51,9 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         locationRequest = LocationRequest.create()
                 .setInterval(1000 * DEFAULT_UPDATE_INTERVAL)
-                .setFastestInterval(1000 * DEFAULT_UPDATE_INTERVAL)
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setMaxWaitTime(1000);
+                .setFastestInterval(1000 * FAST_UPDATE_INTERVAL)
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
         locationCallBack = new LocationCallback() {
             @Override
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
-           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>()   {
                @Override
                public void onSuccess(Location location) {
                    if (location != null)
