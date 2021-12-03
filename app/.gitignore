@@ -1,1 +1,10 @@
-/build
+.gradle
+.idea
+*.iml
+build
+local.properties
+secure.properties
+.classpath
+.project
+project.properties
+.DS_Store
