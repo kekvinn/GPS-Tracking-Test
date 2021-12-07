@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSIONS_FINE_LOCATION = 99;
     TextView txtLat, txtLong, txtAlt, txtAcc, txtSpeed, txtSensor, txtUpdates, txtAddress;
     Switch swLocationUpdates, swGPS;
-    Button btnSaveWaypoint, btnShowMap;
+    Button btnSaveWaypoint, btnShowMap, btnShowList;
     Location currentLocation;
     List<Location> savedLocations;
 
@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         swGPS = findViewById(R.id.swGPS);
         btnSaveWaypoint = findViewById(R.id.btnSaveWaypoint);
         btnShowMap = findViewById(R.id.btnShowMap);
+        btnShowList = findViewById(R.id.btnShowList);
 
         locationRequest = LocationRequest.create()
                 .setInterval(1000 * DEFAULT_UPDATE_INTERVAL)
@@ -90,7 +91,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         });
 
+        btnShowList.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, SavedLocationsList.class);
+            startActivity(i);
+
+        });
+
         btnSaveWaypoint.setOnClickListener(v -> {
+            Intent i = new Intent(MainActivity.this, WaypointForm.class);
+            startActivity(i);
+
             MyApplication myApplication = (MyApplication) getApplicationContext();
             savedLocations = myApplication.getMyLocations();
             savedLocations.add(currentLocation);
@@ -185,6 +195,10 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e){
             txtAddress.setText("Unable to get street address.");
         }
+
+        // TODO: make form that takes in long, lat, time & date, notes, issue type
+        // TODO: display list, make it editable
+
 
     }
 
