@@ -3,9 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Kevin Liu/StudioProjects/GPS-Tracking-Test/app/src/main/res/layout/activity_waypoint_form.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_saved_locations_list.xml" value="0.35572916666666665" />
-        <entry key="app/src/main/res/layout/activity_waypoint_form.xml" value="0.33" />
       </map>
     </option>
   </component>
